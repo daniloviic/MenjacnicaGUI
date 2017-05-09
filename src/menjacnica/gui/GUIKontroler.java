@@ -83,4 +83,9 @@ public class GUIKontroler {
 		}
 		return s;
 	}
+	
+	public static void dodajKursK(String str) {
+		menjacnica.dodajKursM(str);
+
+	}
 }
