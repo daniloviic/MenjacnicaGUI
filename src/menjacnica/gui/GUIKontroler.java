@@ -84,8 +84,13 @@ public class GUIKontroler {
 		return s;
 	}
 	
-	public static void dodajKursK(String str) {
-		menjacnica.dodajKursM(str);
+	public static void dodajKursK(String kurs) {
+		menjacnica.dodajKursM(kurs);
+
+	}
+	
+	public static void izbrisiKursK(String kurs) {
+		menjacnica.izbrisiKursM(kurs);
 
 	}
 }
