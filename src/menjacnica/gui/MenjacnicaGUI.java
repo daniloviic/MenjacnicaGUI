@@ -18,6 +18,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JPopupMenu;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class MenjacnicaGUI extends JFrame {
 
@@ -47,7 +55,7 @@ public class MenjacnicaGUI extends JFrame {
 		setTitle("Menjacnica");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MenjacnicaGUI.class.getResource("/1494372037_folder-project.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 570, 362);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -56,12 +64,17 @@ public class MenjacnicaGUI extends JFrame {
 		menuBar.add(mnFile);
 		
 		JMenuItem mntmOpen = new JMenuItem("Open");
+		mntmOpen.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/file.gif")));
+		mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		mnFile.add(mntmOpen);
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.setIcon(new ImageIcon(MenjacnicaGUI.class.getResource("/javax/swing/plaf/metal/icons/ocean/floppy.gif")));
+		mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mnFile.add(mntmSave);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.ALT_MASK));
 		mnFile.add(mntmExit);
 		
 		JMenu mnHelp = new JMenu("Help");
@@ -80,14 +93,15 @@ public class MenjacnicaGUI extends JFrame {
 		eastPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JButton btnDodajKurs = new JButton("Dodaj kurs");
-		btnDodajKurs.setPreferredSize(new Dimension(95, 23));
+		btnDodajKurs.setPreferredSize(new Dimension(110, 25));
 		eastPanel.add(btnDodajKurs);
 		
 		JButton btnIzbrisiKurs = new JButton("Izbrisi kurs");
-		btnIzbrisiKurs.setPreferredSize(new Dimension(95, 23));
+		btnIzbrisiKurs.setPreferredSize(new Dimension(110, 25));
 		eastPanel.add(btnIzbrisiKurs);
 		
 		JButton btnIzvrsiIzmenu = new JButton("Izvrsi izmenu");
+		btnIzvrsiIzmenu.setPreferredSize(new Dimension(110, 25));
 		eastPanel.add(btnIzvrsiIzmenu);
 		
 		JPanel centerPanel = new JPanel();
@@ -111,10 +125,23 @@ public class MenjacnicaGUI extends JFrame {
 				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column"
+				"Sifra", "Skraceni naziv", "Prodajni", "Srednji", "Kupovni", "Naziv"
 			}
 		));
+		table.getColumnModel().getColumn(1).setPreferredWidth(92);
 		scrollPane_1.setViewportView(table);
+		
+		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(table, popupMenu);
+		
+		JMenuItem mntmDodajKurs = new JMenuItem("Dodaj kurs");
+		popupMenu.add(mntmDodajKurs);
+		
+		JMenuItem mntmIzbrisiKurs = new JMenuItem("Izbrisi kurs");
+		popupMenu.add(mntmIzbrisiKurs);
+		
+		JMenuItem mntmIzvrsiIzmenu = new JMenuItem("Izvrsi izmenu");
+		popupMenu.add(mntmIzvrsiIzmenu);
 		
 		JPanel southPanel = new JPanel();
 		southPanel.setBorder(new TitledBorder(null, "Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -131,4 +158,24 @@ public class MenjacnicaGUI extends JFrame {
 		scrollPane.setViewportView(textArea);
 	}
 
+	public JTable getTable() {
+		return table;
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 }
