@@ -93,4 +93,8 @@ public class GUIKontroler {
 		menjacnica.izbrisiKursM(kurs);
 
 	}
+	
+	public static void zameniKursK(String kurs){
+		menjacnica.zameniKursM(kurs);
+	}
 }
